@@ -1,0 +1,79 @@
+sbatch -J 8q2p8t8l submit_compiler.sh 8 2 8 8
+
+for p in {1..4}; do for q in {8..10}; do `sbatch -J ${q}q${p}p${q}t${q}l submit_compiler.sh ${q} ${p} ${q} ${q}`; done; done
+
+
+
+
+-------------------------BELOW IS THE INSTRUCTIONS------------------------------
+
+
+Connecting to Zhores:
+download cisco any connect to your computer and connect to vpn-zh.skoltech.ru
+put the credentials that were sent to your email.
+
+open the terminal if you are on linux/macos or download putty or mobaXterm if you are on windows
+follow the instructions that were sent to your email to connect from the terminal
+
+      2. Jupyter notebook
+in your code take the inputs as system arguments (see example notebook)
+save your program as a python file. in Jupyter notebook click File > Download as > Python (.py)
+
+      3. Uploading your code to  zhores
+in the terminal and connected to zhores, make a directory by typing: mkdir <name of the directory>
+to see the files in a directory type: ls
+to get into a directory you created by typing: cd <name>
+make two directories named:
+ logs: here will be saved any python output
+data_logs: here will be saved the .csv files that your code will output
+
+     4. Copying files from your computer to Zhores 
+
+open a new terminal and write: 
+
+scp <file directory>/<file> username@domain:<directory in zhores>/
+
+example:
+
+scp /home/ernesto/Pictures/boxes.png e.campos@cdise.login:/trinity/home/e.campos/boxes/
+
+Note: if you are not sure of the name of a directory use the command: pwd
+
+send to zhores your .py file and the submission script(included in the examples)
+
+   5) setting stuff to run code in Zhores
+modify the submission script. To do so type: nano sumbmit_compiler.sh
+modify the script  to work with your code by changing  the directory where the .csv files will be saved R=<directory> 
+save the changes
+
+
+      6) Running stuff
+run the example by typing: 
+sbatch -J name submission_script.sh arguments
+
+example: 
+
+sbatch -J 3q4p submition_compiler.sh 3 4
+
+This sends 40 jobs to Zhores (this can be seen from the submit_compiler.sh while in nano), with 3 qubits and 4 layers.
+
+you can check the status of your jobs by typing: squeue
+you can cancel the jobs by typing: scancel -n <user>@<domain>
+
+if you want to submit multiple jobs for a range of certain parameter e.g. 1 to 3 layers, it can be done by typing:
+
+for i in {1..3}; do `sbatch -J ${i}p submit_compiler.sh 3 ${i}`; done
+
+    7) checking for problems
+if you encounter any problems, go to the logs folder and type ls.
+open any of the files with cat <filename>
+if there was any error with the program it will be displayed there
+
+      8) downloading the data
+when your jobs have finished you can download the files using scp
+scp username@domain:<directory in zhores>/ <file directory>/<filename>
+
+Note: to copy all files in a given directory use 
+scp username@domain:<directory in zhores>/ <file directory>/*.* 
+	
+here * stands for all possible names and extensions, therefore *.* will copy all files in a given directory
