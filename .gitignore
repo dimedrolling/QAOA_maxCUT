@@ -26,8 +26,8 @@ share/python-wheels/
 *.egg
 MANIFEST
 
-data/*
-data_test/*
+Zhores/data/*
+*/data_test/*
 .idea/
 
 # PyInstaller
